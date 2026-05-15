@@ -1,0 +1,12 @@
+{"timestamp":"2026-02-14T08:22:46.366654Z","level":"info","event":"DAG bundles loaded: dags-folder, example_dags","logger":"airflow.dag_processing.bundles.manager.DagBundlesManager","filename":"manager.py","lineno":179}
+{"timestamp":"2026-02-14T08:22:46.368587Z","level":"info","event":"Filling up the DagBag from /opt/airflow/dags/my_pos_etl_pipeline.py","logger":"airflow.models.dagbag.BundleDagBag","filename":"dagbag.py","lineno":593}
+{"timestamp":"2026-02-14T08:22:46.399663Z","level":"info","event":"Task instance is in running state","logger":"task.stdout"}
+{"timestamp":"2026-02-14T08:22:46.400549Z","level":"info","event":" Previous state of the Task instance: TaskInstanceState.QUEUED","logger":"task.stdout"}
+{"timestamp":"2026-02-14T08:22:46.400958Z","level":"info","event":"Current task name:clear_staging","logger":"task.stdout"}
+{"timestamp":"2026-02-14T08:22:46.401919Z","level":"info","event":"Dag name:pos_sales_etl_v3","logger":"task.stdout"}
+{"timestamp":"2026-02-14T08:22:46.399936Z","level":"info","event":"Executing: TRUNCATE TABLE stg_pos_transaction;","logger":"airflow.task.operators.airflow.providers.common.sql.operators.sql.SQLExecuteQueryOperator","filename":"sql.py","lineno":394}
+{"timestamp":"2026-02-14T08:22:46.442633Z","level":"info","event":"Running statement: TRUNCATE TABLE stg_pos_transaction;, parameters: None","logger":"airflow.task.hooks.airflow.providers.mysql.hooks.mysql.MySqlHook","filename":"sql.py","lineno":829}
+{"timestamp":"2026-02-14T08:22:46.499913Z","level":"info","event":"Rows affected: 0","logger":"airflow.task.hooks.airflow.providers.mysql.hooks.mysql.MySqlHook","filename":"sql.py","lineno":841}
+{"timestamp":"2026-02-14T08:22:46.514341Z","level":"info","event":"Task instance in success state","logger":"task.stdout"}
+{"timestamp":"2026-02-14T08:22:46.514707Z","level":"info","event":" Previous state of the Task instance: TaskInstanceState.RUNNING","logger":"task.stdout"}
+{"timestamp":"2026-02-14T08:22:46.515173Z","level":"info","event":"Task operator:<Task(SQLExecuteQueryOperator): clear_staging>","logger":"task.stdout"}
