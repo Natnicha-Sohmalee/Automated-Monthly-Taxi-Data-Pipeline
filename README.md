@@ -17,7 +17,7 @@ The pipeline follows the **Medallion Architecture** to ensure data quality and r
 ## Tech Stack
 
 * **Orchestration:** Apache Airflow
-* **Processing Engine:** Python (Pandas / PyArrow)
+* **Processing Engine:** Python (Pandas)
 * **Storage Format:** Apache Parquet (Columnar Storage)
 * **Environment:** Docker & Docker Compose
 * **Data Modeling:** Star Schema & Hive-style Partitioning
