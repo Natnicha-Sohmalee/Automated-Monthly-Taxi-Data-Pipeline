@@ -1,21 +1,23 @@
 # Automated Monthly Taxi Data Pipeline
 
-An End-to-End Data Engineering project utilizing **Apache Airflow**, **Python**, and **Docker** to automate the ingestion, transformation, and modeling of NYC Taxi Trip datasets using the **Medallion Architecture**.
+An End-to-End Data Engineering project utilizing Apache Airflow, Python, and Docker to automate the ingestion, transformation, and modeling of NYC Taxi Trip datasets using the Medallion Architecture.
 
 ## Project Overview
+This project builds a robust, idempotent data pipeline that processes massive monthly taxi datasets (2.2M+ rows). It handles the progression of data from raw Parquet files to a clean, partitioned Star Schema ready for Business Intelligence tools like Power BI.
 
-This project builds a robust, idempotent data pipeline that processes massive monthly taxi datasets (2.2M+ rows). It handles the progression of data from raw Parquet files to a clean, partitioned **Star Schema** ready for Business Intelligence tools like Power BI.
+## Data Source
+The dataset used in this project is obtained from the official **NYC Taxi and Limousine Commission (TLC)** Trip Record Data. 
+* **Source Link:** [NYC TLC Trip Record Data](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page)
+* **Data Type Used:** **Yellow Taxi Trip Records** (provided as monthly `.parquet` files).
+* **Data Volume:** Approximately 2.2M+ rows per month containing detailed fields such as pickup/dropoff timestamps, trip distances, fare breakdown, and location IDs.
 
 ## System Architecture
-
-The pipeline follows the **Medallion Architecture** to ensure data quality and reliability:
-
-1. **Bronze Layer (Raw Source):** Automated ingestion from the landing zone to historical storage with state tracking.
-2. **Silver Layer (Cleaned & Enriched):** Filters anomalies (negative fares, unrealistic durations) and performs feature engineering.
-3. **Gold Layer (Analytical Serving):** Organizes data into Fact and Dimension tables using **Hive-style Partitioning** for optimized query performance.
+The pipeline follows the Medallion Architecture to ensure data quality and reliability:
+* **Bronze Layer (Raw Source):** Automated ingestion from the landing zone to historical storage with state tracking.
+* **Silver Layer (Cleaned & Enriched):** Filters anomalies (negative fares, unrealistic durations) and performs feature engineering.
+* **Gold Layer (Analytical Serving):** Organizes data into Fact and Dimension tables using Hive-style Partitioning for optimized query performance.
 
 ## Tech Stack
-
 * **Orchestration:** Apache Airflow
 * **Processing Engine:** Python (Pandas)
 * **Storage Format:** Apache Parquet (Columnar Storage)
@@ -23,7 +25,6 @@ The pipeline follows the **Medallion Architecture** to ensure data quality and r
 * **Data Modeling:** Star Schema & Hive-style Partitioning
 
 ## Project Structure
-
 ```text
 taxi-de-project/
 │── dags/
@@ -45,18 +46,16 @@ taxi-de-project/
 
 ## Data Pipeline Stages (DAG)
 
-The Airflow DAG controls the dependency flow using **XComs** to pass file paths dynamically between tasks:
+The Airflow DAG controls the dependency flow using XComs to pass file paths dynamically between tasks:
 
-1. **`extract_bronze`**: Scans the `raw/` directory. If a new `.parquet` file is found, it copies it to `bronze/` and logs it in `processed_files.txt`.
-2. **`transform_silver`**:
-* Ensures `fare_amount >= 0` and `trip_distance > 0`.
+* **extract_bronze:** Scans the `data/raw/` directory. If a new `.parquet` file is found, it copies it to `data/bronze/` and logs it in `processed_files.txt`.
+* **transform_silver:** * Ensures `fare_amount >= 0` and `trip_distance > 0`.
 * Calculates `trip_duration_minutes`.
 * Extracts time-based features (Hour, Day Name, Month).
 
 
-3. **`build_gold`**:
-* Creates a **Fact Table** (`fact_taxi_trips`) partitioned by month.
-* Creates a **Dimension Table** (`dim_date`) for time-series analysis.
+* **build_gold:** * Creates a Fact Table (`fact_taxi_trips`) partitioned by month.
+* Creates a Dimension Table (`dim_date`) for time-series analysis.
 
 
 
@@ -65,7 +64,7 @@ The Airflow DAG controls the dependency flow using **XComs** to pass file paths 
 ### 1. Prerequisites
 
 * Docker and Docker Compose installed.
-* New York Taxi `.parquet` files placed in `data/raw/`.
+* Download the NYC Taxi `.parquet` dataset from the official [NYC TLC Trip Record Data Website](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page) and place the downloaded files into the `data/raw/` directory.
 
 ### 2. Deployment
 
@@ -79,7 +78,7 @@ docker-compose up -d
 
 1. Access the Airflow Web UI at `http://localhost:8080`.
 2. Enable the `monthly_taxi_ingestion` DAG.
-3. The pipeline will automatically detect files in `data/raw/` and process them through the layers.
+3. The pipeline will automatically detect files in `data/raw/` and process them through the medallion layers.
 
 ### 4. Testing
 
@@ -94,10 +93,15 @@ docker exec -it <container_id> python3 scripts/test_gold.py
 
 ## Data Modeling & Optimization
 
-* **Idempotency:** The pipeline uses a state ledger to ensure that re-running the DAG does not ingest the same file twice.
-* **Partitioning:** The Gold Layer implements Hive-style partitioning (`month=YYYY-MM`), enabling **Partition Pruning** in query engines to reduce I/O costs and improve speed.
+* **Idempotency:** The pipeline uses a state ledger (`processed_files.txt`) to ensure that re-running the DAG does not ingest the same file twice.
+* **Partitioning:** The Gold Layer implements Hive-style partitioning (`month=YYYY-MM`), enabling Partition Pruning in query engines to reduce I/O costs and improve speed.
 
 ---
 
 **Author:** Natnicha Sohmalee 66102010579
+
 **Project Date:** May 2026
+
+```
+
+```
