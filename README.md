@@ -40,7 +40,6 @@ taxi-de-project/
 │   ├── build_gold.py               # Star Schema modeling
 │   ├── test_*.py                   # Modular unit tests
 ├── docker-compose.yml              # Container orchestration
-└── requirements.txt                # Python dependencies
 
 ```
 
